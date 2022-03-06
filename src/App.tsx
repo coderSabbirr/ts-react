@@ -1,4 +1,4 @@
-import { useCallback, useReducer, useRef } from "react";
+import { useCallback, useReducer, useRef, useState } from "react";
 import "./App.css";
 
 interface Todo {
@@ -37,21 +37,42 @@ function App() {
     }
   }, []);
 
+  const [count, setCount] = useState<number>(0);
+
   return (
     <div className="App" style={{ textAlign: "center", marginTop: "10px" }}>
-      <input type="text" ref={newTodoRef} />
-      <button onClick={onAddTodo}>Add</button>
-      {todos.map((todo) => {
-        return (
-          <div key={todo.id}>
-            {todo.text}
+      <p style={{ color: "green" }}>
+        You clicked{" "}
+        <span style={{ color: "red", fontWeight: "600" }}>{count}</span> times
+      </p>
+      <button
+        style={{
+          backgroundColor: "green",
+          color: "white",
+          padding: "10px 10px",
+          borderRadius: "5px",
+          border: "0",
+        }}
+        onClick={() => setCount(count + 1)}
+      >
+        Click me
+      </button>
+      <br />
+      <div style={{ color: "", marginTop: "20px" }}>
+        <input type="text" ref={newTodoRef} />
+        <button onClick={onAddTodo}>Add</button>
+        {todos.map((todo) => {
+          return (
+            <div key={todo.id}>
+              {todo.text}
 
-            <button onClick={() => dispatch({ type: "REMOVE", id: todo.id })}>
-              Remove
-            </button>
-          </div>
-        );
-      })}
+              <button onClick={() => dispatch({ type: "REMOVE", id: todo.id })}>
+                Remove
+              </button>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
